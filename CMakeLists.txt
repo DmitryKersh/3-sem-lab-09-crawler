@@ -32,6 +32,9 @@ find_package(GTest CONFIG REQUIRED)
 hunter_add_package(asio)
 find_package(asio CONFIG REQUIRED)
 
+hunter_add_package(gumbo)
+find_package(gumbo CONFIG REQUIRED)
+
 hunter_add_package(Boost COMPONENTS log filesystem thread)
 find_package(Boost CONFIG REQUIRED log filesystem thread)
 
@@ -52,7 +55,7 @@ target_include_directories(crawler-lib PUBLIC
   #"$<INSTALL_INTERFACE:include>"
 )
 
-target_link_libraries(crawler-lib PUBLIC asio::asio_headeronly Boost::log Boost::filesystem Boost::thread)
+target_link_libraries(crawler-lib PUBLIC asio::asio_headeronly Boost::log Boost::filesystem Boost::thread gumbo::gumbo)
 target_link_libraries(crawler-app PUBLIC crawler-lib asio::asio_static)
 
 if(BUILD_TESTS)
