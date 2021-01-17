@@ -1,6 +1,7 @@
 #include <header.hpp>
+#include <iostream>
 
 int main() {
-  asio::thread_pool pool(3);
+
   return 0;
 }
