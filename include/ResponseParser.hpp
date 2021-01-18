@@ -1,0 +1,8 @@
+//
+// Created by dmitrykersh on 18.01.2021.
+//
+
+#ifndef CRAWLER_RESPONSEPARSER_HPP
+#define CRAWLER_RESPONSEPARSER_HPP
+
+#endif  // CRAWLER_RESPONSEPARSER_HPP
