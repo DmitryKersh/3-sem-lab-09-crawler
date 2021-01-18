@@ -14,9 +14,9 @@
 
 typedef http::response<http::string_body> http_response_t;
 
-std::optional<std::pair<std::string, std::string>> parse_url_parts(std::string const& url);
+std::optional<std::pair<std::string, std::string>> parse_url(std::string const& url);
 
-[[nodiscard]] std::optional<http_response_t> read_from_url(std::string const& host, std::string const& port,
-                                                             std::string const& target);
+std::optional<http_response_t> read_from_url(std::string const& host, std::string const& port,
+                                                             std::string const& url);
 
 #endif  // CRAWLER_URLREADER_HPP

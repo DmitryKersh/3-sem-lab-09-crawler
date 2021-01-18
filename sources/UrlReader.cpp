@@ -4,7 +4,7 @@
 
 #include <UrlReader.hpp>
 
-std::optional<std::pair<std::string, std::string>> parse_url_parts(std::string const& url){
+std::optional<std::pair<std::string, std::string>> parse_url(std::string const& url){
   size_t protocol_offset = 0;
   auto const protocol_delim = url.find("://");
 
@@ -21,4 +21,28 @@ std::optional<std::pair<std::string, std::string>> parse_url_parts(std::string c
          ? std::make_pair(url.substr(protocol_offset), "/")
          : std::make_pair(url.substr(protocol_offset, path_delimiter_index - protocol_offset),
                             url.substr(path_delimiter_index));
+}
+
+std::optional<http_response_t> read_from_url(std::string const& host, std::string const& port,
+                                            std::string const& url){
+  try {
+    asio::io_context context;
+    beast::tcp_stream stream {context};
+    stream.connect(tcp::resolver{context}.resolve(host, port));
+
+    {
+      http::request<http::string_body> request {http::verb::get, url, 11};
+      request.set(http::field::host, host);
+      request.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+      http::write(stream, request);
+    }
+
+    beast::flat_buffer buffer;
+    http_response_t response;
+    http::read(stream, buffer, response);
+
+    return response;
+  } catch (std::system_error& error) {
+    return std::nullopt;
+  }
 }
