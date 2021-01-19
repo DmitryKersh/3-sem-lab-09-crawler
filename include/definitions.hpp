@@ -1,7 +1,7 @@
 // Copyright 2020 Your Name <your_email>
 
-#ifndef INCLUDE_HEADER_HPP_
-#define INCLUDE_HEADER_HPP_
+#ifndef CRAWLER_DEFINITIONS_HPP_
+#define CRAWLER_DEFINITIONS_HPP_
 
 #include <boost/asio.hpp>
 #include <boost/beast/core.hpp>
@@ -13,4 +13,4 @@ namespace beast = boost::beast;
 namespace http = beast::http;
 using tcp = asio::ip::tcp;
 
-#endif // INCLUDE_HEADER_HPP_
+#endif // CRAWLER_DEFINITIONS_HPP_
