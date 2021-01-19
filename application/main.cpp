@@ -41,7 +41,6 @@ int main(int argc, char** argv) {
 
   if (program_options.count("help")) {
     std::cout << DESCRIPTION << std::endl;
-
     return 0;
   }
 
