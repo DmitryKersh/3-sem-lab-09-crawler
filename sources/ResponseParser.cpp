@@ -5,6 +5,19 @@
 
 #include <ResponseParser.hpp>
 
+struct GuardedGumboOutput {
+    // RAII-guard
+    GumboOutput* const guarded;
+
+    ~GuardedGumboOutput() {
+        if (guarded) gumbo_destroy_output(&kGumboDefaultOptions, guarded);
+    }
+
+    typename ::std::add_lvalue_reference<GumboOutput>::type operator*() const { return *guarded; }
+
+    GumboOutput* operator->() const noexcept { return guarded; }
+};
+
 std::ostream& operator<<(std::ostream& os, ParsingResult const& result) {
     os << "Result:\n\tImages:\n";
     for (auto const& url : result.image_urls) { os << "\t\t" << url << std::endl; }
@@ -35,7 +48,7 @@ std::set<std::string> recursive_search(GumboNode const* const node, GumboTag con
 }
 
 ParsingResult parse_response(http_response_t const& response, bool parse_children) {
-    GumboOutput* output = gumbo_parse(response.body().c_str());
+    GuardedGumboOutput output { gumbo_parse(response.body().c_str()) };
 
     return ParsingResult{
         recursive_search(output->root, GUMBO_TAG_IMG, "src"),
